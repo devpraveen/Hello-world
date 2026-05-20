@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Data Architect in the Agentic Era</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-muted: #4a4640;
+    --ink-faint: #8a8480;
+    --paper: #faf9f6;
+    --paper-warm: #f3f0e8;
+    --accent: #c94a2a;
+    --accent-light: #f0e8e2;
+    --teal: #1a7a6a;
+    --teal-light: #e0f0ee;
+    --purple: #4a3a9a;
+    --purple-light: #eeedf8;
+    --amber: #b06010;
+    --amber-light: #faf0e0;
+    --rule: #d4cfc8;
+    --serif: 'Playfair Display', Georgia, serif;
+    --body: 'Source Serif 4', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { font-size: 18px; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .masthead .kicker {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 800px;
+    margin: 0 auto 1.2rem;
+    letter-spacing: -0.01em;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: #e8a080;
+  }
+  .masthead .subhead {
+    font-family: var(--body);
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #b0aaa4;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: #706a64;
+    letter-spacing: 0.08em;
+  }
+  .byline span { color: #b0aaa4; }
+  .byline .sep { color: #404040; }
+
+  /* ── ARTICLE BODY ────────────────────────────────────── */
+  .article-body {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1.5px solid var(--rule);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-muted);
+    margin: 2rem 0 0.6rem;
+  }
+
+  /* ── PULL QUOTE ─────────────────────────────────────── */
+  .pull-quote {
+    border-left: 4px solid var(--accent);
+    margin: 2.5rem 0;
+    padding: 1rem 0 1rem 1.8rem;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+
+  /* ── VISUAL CARD ─────────────────────────────────────── */
+  .visual-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    margin: 2.5rem 0;
+    overflow: hidden;
+  }
+  .visual-card .vc-label {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5rem 1.2rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .visual-card svg {
+    display: block;
+    width: 100%;
+  }
+  .visual-card .vc-caption {
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    color: var(--ink-faint);
+    line-height: 1.5;
+  }
+
+  /* ── CALLOUT BOX ─────────────────────────────────────── */
+  .callout {
+    background: var(--purple-light);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 6px 6px 0;
+    padding: 1.2rem 1.4rem;
+    margin: 2rem 0;
+  }
+  .callout.amber { background: var(--amber-light); border-color: var(--amber); }
+  .callout.teal  { background: var(--teal-light);  border-color: var(--teal); }
+  .callout .callout-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+  .callout.amber .callout-title { color: var(--amber); }
+  .callout.teal  .callout-title { color: var(--teal); }
+  .callout p { margin: 0; font-size: 0.9rem; color: var(--ink-muted); }
+
+  /* ── COMPARISON TABLE ────────────────────────────────── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.88rem;
+  }
+  .compare-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.7rem 1rem;
+    text-align: left;
+  }
+  .compare-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+  .compare-table tr:nth-child(even) td { background: var(--paper-warm); }
+  .compare-table td:first-child {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .compare-table td.new { color: var(--teal); font-weight: 400; }
+
+  /* ── NUMBERED LIST ───────────────────────────────────── */
+  .principle-list {
+    list-style: none;
+    counter-reset: principles;
+    margin: 1.5rem 0;
+    padding: 0;
+  }
+  .principle-list li {
+    counter-increment: principles;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    margin-bottom: 1.4rem;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+  }
+  .principle-list li::before {
+    content: counter(principles, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 4px;
+    padding: 0.25rem 0.45rem;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .principle-list li .principle-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .principle-list li strong {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .principle-list li span {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+
+  /* ── DIVIDER ─────────────────────────────────────────── */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    color: var(--rule);
+  }
+  .section-rule::before,
+  .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .section-rule span { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--ink-faint); white-space: nowrap; }
+
+  /* ── FOOTER ──────────────────────────────────────────── */
+  .article-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+    padding-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.25rem 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 600px) {
+    html { font-size: 16px; }
+    .masthead { padding: 2rem 1.2rem; }
+    .article-body { padding: 2rem 1.2rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ MASTHEAD ══════════════ -->
+<header class="masthead">
+  <div class="kicker">Architecture · AI · Data Engineering</div>
+  <h1>The Data Architect<br>in the <em>Agentic Era</em></h1>
+  <p class="subhead">When AI agents become the primary consumers of data, every assumption about architecture, semantics, and governance needs to be revisited.</p>
+  <div class="byline">
+    <span>15 min read</span>
+    <span class="sep">·</span>
+    <span>May 2026</span>
+    <span class="sep">·</span>
+    <span>Data Architecture</span>
+  </div>
+</header>
+
+<!-- ══════════════ ARTICLE BODY ══════════════ -->
+<article class="article-body">
+
+  <p>For two decades, the Data Architect's primary user was a human — an analyst opening a dashboard, a data scientist pulling a dataframe, a business leader reading a report. That mental model is quietly becoming obsolete.</p>
+
+  <p>In the agentic era, the most frequent consumer of your data infrastructure is not a person. It is an AI agent: querying, reasoning, writing, and acting — autonomously, at machine speed, without a human in the loop to catch an ambiguous column name or a stale snapshot.</p>
+
+  <p>This changes everything. Not just the technology stack, but the fundamental contract between the architect and the systems they design.</p>
+
+  <div class="pull-quote">
+    "Humans ask clarifying questions when data is ambiguous. Agents typically don't. That changes the cost of every architectural shortcut you've ever taken."
+  </div>
+
+  <!-- ── VISUAL 1: The Four Layers ─────────────────────── -->
+  <div class="visual-card">
+    <div class="vc-label">Figure 1 — The Data Architecture Stack for Agentic Systems</div>
+    <svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Serif 4',Georgia,serif;">
+      <defs>
+        <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#4a4640" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Layer 4: Agent Layer (top) -->
+      <rect x="40" y="24" width="620" height="88" rx="10" fill="#1a1814" stroke="none"/>
+      <text x="350" y="52" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" letter-spacing="2" fill="#8a8480" text-decoration="none">LAYER 4</text>
+      <text x="350" y="72" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f6">Agent Layer</text>
+      <text x="350" y="92" text-anchor="middle" font-size="11" fill="#706a64">Analytical agents · Orchestration agents · Write agents · Monitor agents</text>
+
+      <!-- Arrow -->
+      <line x1="350" y1="112" x2="350" y2="140" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr1)" marker-start="url(#arr1)"/>
+
+      <!-- Layer 3: Semantic Layer -->
+      <rect x="40" y="144" width="620" height="88" rx="10" fill="#eeedf8" stroke="#c0bce8" stroke-width="1"/>
+      <text x="350" y="172" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" letter-spacing="2" fill="#7060b0">LAYER 3</text>
+      <text x="350" y="192" text-anchor="middle" font-size="16" font-weight="700" fill="#2a1a6a">Semantic Layer</text>
+      <text x="350" y="212" text-anchor="middle" font-size="11" fill="#5040a0">Business ontology · Metrics definitions · Data contracts · Glossaries</text>
+
+      <!-- Arrow -->
+      <line x1="350" y1="232" x2="350" y2="260" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr1)" marker-start="url(#arr1)"/>
+
+      <!-- Layer 2: Data Platform -->
+      <rect x="40" y="264" width="620" height="88" rx="10" fill="#e0f0ee" stroke="#a0d8d0" stroke-width="1"/>
+      <text x="350" y="292" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" letter-spacing="2" fill="#1a7a6a">LAYER 2</text>
+      <text x="350" y="312" text-anchor="middle" font-size="16" font-weight="700" fill="#0a4a40">Data Platform Layer</text>
+      <text x="350" y="332" text-anchor="middle" font-size="11" fill="#1a6a60">Lakehouse · Vector store · Feature store · Streaming · Serving APIs</text>
+
+      <!-- Arrow -->
+      <line x1="350" y1="352" x2="350" y2="380" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr1)" marker-start="url(#arr1)"/>
+
+      <!-- Layer 1: Governance -->
+      <rect x="40" y="384" width="620" height="72" rx="10" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="350" y="408" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" letter-spacing="2" fill="#a07020">LAYER 1</text>
+      <text x="350" y="428" text-anchor="middle" font-size="16" font-weight="700" fill="#6a3a00">Governance &amp; Trust Layer</text>
+      <text x="350" y="448" text-anchor="middle" font-size="11" fill="#9a6020">Data catalog · Lineage · Access control · Quality scoring · Audit logs</text>
+    </svg>
+    <div class="vc-caption">The four-layer architecture for agent-ready data systems. Each layer must be designed with machine consumers in mind, not just human analysts.</div>
+  </div>
+
+  <h2>Why This Era Is Different</h2>
+
+  <p>Data architecture has always evolved alongside its consumers. The mainframe era demanded batch processing. The web era demanded OLTP at scale. The analytics era demanded columnar warehouses and BI tools. The cloud era demanded elasticity and separation of compute and storage.</p>
+
+  <p>The agentic era demands something more fundamental: <em>data that machines can trust without human supervision.</em></p>
+
+  <p>Previous eras introduced new volumes, velocities, and varieties. This era introduces a new level of autonomy in the consumer. And that autonomy has architectural consequences that touch every layer of the stack.</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Traditional Architecture</th>
+        <th>Agentic Architecture</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Primary consumer</td>
+        <td>Human analyst, BI tool</td>
+        <td class="new">AI agent, automated pipeline</td>
+      </tr>
+      <tr>
+        <td>Ambiguity handling</td>
+        <td>Human asks for clarification</td>
+        <td class="new">Agent must infer or fail gracefully</td>
+      </tr>
+      <tr>
+        <td>Semantic layer</td>
+        <td>Optional convenience layer</td>
+        <td class="new">Critical safety infrastructure</td>
+      </tr>
+      <tr>
+        <td>Lineage</td>
+        <td>Nice-to-have for compliance</td>
+        <td class="new">Required for agent auditability</td>
+      </tr>
+      <tr>
+        <td>Query patterns</td>
+        <td>Predictable, human-authored</td>
+        <td class="new">Dynamic, LLM-generated, unpredictable</td>
+      </tr>
+      <tr>
+        <td>Error detection</td>
+        <td>Human notices wrong dashboard</td>
+        <td class="new">Must be automated — agent won't notice</td>
+      </tr>
+      <tr>
+        <td>Data freshness</td>
+        <td>T+1 often acceptable</td>
+        <td class="new">Near-real-time often required</td>
+      </tr>
+      <tr>
+        <td>Access control</td>
+        <td>RBAC for human roles</td>
+        <td class="new">Fine-grained ABAC for agent identities</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-rule"><span>· · ·</span></div>
+
+  <h2>The Semantic Layer Becomes Infrastructure</h2>
+
+  <p>In the traditional data stack, the semantic layer — metrics definitions, business glossaries, canonical KPI logic — was a convenience layer. It made analysts more productive. It was "nice to have." Many organisations shipped without it entirely.</p>
+
+  <p>In the agentic era, the semantic layer is safety-critical infrastructure.</p>
+
+  <p>Here is why. When an analytical agent receives the question "what was UK revenue last month?", it must resolve several ambiguities before touching any data: Which revenue definition? Gross, net, or recognised? Which currency and exchange rate? Which entity — all UK legal entities, or just the primary trading company? Which date dimension — transaction date, recognition date, or settlement date?</p>
+
+  <p>A human analyst resolves these through context, experience, and the ability to ask follow-up questions. An agent resolves them through whatever semantic layer you have built. If that layer is absent or inconsistent, the agent will make choices — silently, confidently, and at scale.</p>
+
+  <!-- ── VISUAL 2: Semantic Layer Detail ────────────────── -->
+  <div class="visual-card">
+    <div class="vc-label">Figure 2 — The Semantic Layer: What It Contains</div>
+    <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#5040a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Central node -->
+      <rect x="260" y="120" width="180" height="64" rx="10" fill="#4a3a9a" stroke="none"/>
+      <text x="350" y="146" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="#c0b8f0" letter-spacing="1">SEMANTIC LAYER</text>
+      <text x="350" y="168" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Machine-readable</text>
+      <text x="350" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">business meaning</text>
+
+      <!-- Satellite 1: Metrics -->
+      <rect x="40" y="36" width="150" height="56" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="115" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#3a2a8a">Metric definitions</text>
+      <text x="115" y="76" text-anchor="middle" font-size="10" fill="#6050b0">Revenue, CAC, NPS logic</text>
+      <line x1="190" y1="74" x2="258" y2="140" stroke="#a090d8" stroke-width="1" marker-end="url(#arr2)"/>
+
+      <!-- Satellite 2: Glossary -->
+      <rect x="40" y="200" width="150" height="56" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="115" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#3a2a8a">Business glossary</text>
+      <text x="115" y="240" text-anchor="middle" font-size="10" fill="#6050b0">Terms, synonyms, owners</text>
+      <line x1="190" y1="228" x2="258" y2="172" stroke="#a090d8" stroke-width="1" marker-end="url(#arr2)"/>
+
+      <!-- Satellite 3: Contracts -->
+      <rect x="510" y="36" width="150" height="56" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="585" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#3a2a8a">Data contracts</text>
+      <text x="585" y="76" text-anchor="middle" font-size="10" fill="#6050b0">Schema + SLA guarantees</text>
+      <line x1="510" y1="74" x2="442" y2="140" stroke="#a090d8" stroke-width="1" marker-end="url(#arr2)"/>
+
+      <!-- Satellite 4: Entities -->
+      <rect x="510" y="200" width="150" height="56" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="585" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#3a2a8a">Entity resolution</text>
+      <text x="585" y="240" text-anchor="middle" font-size="10" fill="#6050b0">Canonical IDs, hierarchies</text>
+      <line x1="510" y1="228" x2="442" y2="172" stroke="#a090d8" stroke-width="1" marker-end="url(#arr2)"/>
+
+      <!-- Agent above -->
+      <rect x="268" y="24" width="164" height="44" rx="8" fill="#1a1814" stroke="none"/>
+      <text x="350" y="44" text-anchor="middle" font-size="12" fill="#faf9f6" font-weight="700">AI Agent</text>
+      <text x="350" y="60" text-anchor="middle" font-size="10" fill="#706a64">"What was UK revenue?"</text>
+      <line x1="350" y1="68" x2="350" y2="118" stroke="#c94a2a" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+
+      <!-- Answer below -->
+      <rect x="268" y="260" width="164" height="44" rx="8" fill="#e0f8e8" stroke="#80c090" stroke-width="1"/>
+      <text x="350" y="282" text-anchor="middle" font-size="12" fill="#1a5a30" font-weight="700">Grounded answer</text>
+      <text x="350" y="298" text-anchor="middle" font-size="10" fill="#2a7a40">£42.3M net, GBP, Oct 2025</text>
+      <line x1="350" y1="186" x2="350" y2="258" stroke="#60a870" stroke-width="1.5" marker-end="url(#arr2)"/>
+    </svg>
+    <div class="vc-caption">An agent without a semantic layer will fabricate plausible-sounding answers. An agent grounded in a semantic layer will resolve ambiguity before it touches the data.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Architect's Imperative</div>
+    <p>The semantic layer is no longer a data warehouse add-on. It is the primary interface between your agents and your data. Every metric, entity, and dimension must be machine-readable, version-controlled, and trusted by every consumer — human and agent alike.</p>
+  </div>
+
+  <h2>The Data Platform Must Serve Machines</h2>
+
+  <p>The agentic era doesn't render the existing data platform obsolete — it extends it. But the extensions are significant, and some of them require rethinking fundamental assumptions about how data is stored and served.</p>
+
+  <h3>Vector stores are first-class citizens</h3>
+
+  <p>Retrieval-Augmented Generation (RAG) is how agents access unstructured knowledge — documents, runbooks, historical decisions, product descriptions, support tickets. This requires vector stores: databases that store high-dimensional embeddings and support semantic similarity search. For most data architects trained on relational systems, this is genuinely new infrastructure to provision, monitor, and govern.</p>
+
+  <h3>Streaming is no longer optional</h3>
+
+  <p>Many agents need to react to events, not just query history. A monitoring agent watching for anomalous order volumes. A fraud detection agent responding to a suspicious transaction pattern. These agents cannot tolerate T+1 batch windows. Streaming infrastructure — Kafka, Flink, or cloud-native equivalents — moves from "advanced capability" to baseline requirement.</p>
+
+  <h3>Feature stores for ML agents</h3>
+
+  <p>Agents that drive predictions or scores — churn risk, next best action, demand forecast — need precomputed, point-in-time-correct features. The feature store solves the training-serving skew problem that plagues ML pipelines: the agent at inference time gets the same feature logic that trained the model, served in milliseconds.</p>
+
+  <!-- ── VISUAL 3: Agent Query Lifecycle ────────────────── -->
+  <div class="visual-card">
+    <div class="vc-label">Figure 3 — How an Analytical Agent Processes a Question</div>
+    <svg viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#4a4640" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="arr3r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#c94a2a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Step boxes: left-aligned flow -->
+      <!-- 1 -->
+      <rect x="50" y="30" width="180" height="52" rx="8" fill="#1a1814"/>
+      <text x="140" y="52" text-anchor="middle" font-size="11" fill="#8a8480" font-family="'DM Mono',monospace" letter-spacing="1">STEP 1</text>
+      <text x="140" y="72" text-anchor="middle" font-size="13" fill="#faf9f6" font-weight="700">Question received</text>
+      <line x1="140" y1="82" x2="140" y2="118" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr3)"/>
+
+      <!-- 2 -->
+      <rect x="50" y="120" width="180" height="52" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="140" y="142" text-anchor="middle" font-size="11" fill="#7060b0" font-family="'DM Mono',monospace" letter-spacing="1">STEP 2</text>
+      <text x="140" y="162" text-anchor="middle" font-size="13" fill="#2a1a6a" font-weight="700">Intent parsing</text>
+      <line x1="140" y1="172" x2="140" y2="208" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr3)"/>
+
+      <!-- 3 -->
+      <rect x="50" y="210" width="180" height="52" rx="8" fill="#eeedf8" stroke="#a090d8" stroke-width="1"/>
+      <text x="140" y="232" text-anchor="middle" font-size="11" fill="#7060b0" font-family="'DM Mono',monospace" letter-spacing="1">STEP 3</text>
+      <text x="140" y="252" text-anchor="middle" font-size="13" fill="#2a1a6a" font-weight="700">Source routing</text>
+      <line x1="140" y1="262" x2="140" y2="298" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr3)"/>
+
+      <!-- 4 -->
+      <rect x="50" y="300" width="180" height="52" rx="8" fill="#e0f0ee" stroke="#a0d8d0" stroke-width="1"/>
+      <text x="140" y="322" text-anchor="middle" font-size="11" fill="#1a7a6a" font-family="'DM Mono',monospace" letter-spacing="1">STEP 4</text>
+      <text x="140" y="342" text-anchor="middle" font-size="13" fill="#0a4a40" font-weight="700">Query + retrieve</text>
+      <line x1="140" y1="352" x2="140" y2="388" stroke="#d4cfc8" stroke-width="1" marker-end="url(#arr3)"/>
+
+      <!-- 5: Confidence -->
+      <rect x="50" y="390" width="180" height="52" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="140" y="412" text-anchor="middle" font-size="11" fill="#a07020" font-family="'DM Mono',monospace" letter-spacing="1">STEP 5</text>
+      <text x="140" y="432" text-anchor="middle" font-size="13" fill="#6a3a00" font-weight="700">Confidence check</text>
+
+      <!-- Retry arrow -->
+      <path d="M50 416 L20 416 L20 146 L48 146" fill="none" stroke="#c94a2a" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr3r)"/>
+      <text x="12" y="285" text-anchor="middle" font-size="9" fill="#c94a2a" font-family="'DM Mono',monospace">retry</text>
+
+      <!-- Arrow to output -->
+      <line x1="232" y1="416" x2="320" y2="416" stroke="#60a870" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <!-- Output box -->
+      <rect x="322" y="390" width="190" height="52" rx="8" fill="#e0f8e8" stroke="#80c090" stroke-width="1"/>
+      <text x="417" y="412" text-anchor="middle" font-size="11" fill="#1a5a30" font-family="'DM Mono',monospace" letter-spacing="1">OUTPUT</text>
+      <text x="417" y="432" text-anchor="middle" font-size="13" fill="#1a5a30" font-weight="700">Answer delivered</text>
+
+      <!-- Annotations on right -->
+      <line x1="540" y1="56" x2="570" y2="56" stroke="#d4cfc8" stroke-width="1"/>
+      <text x="575" y="56" font-size="10" fill="#8a8480" dominant-baseline="middle">"Why did UK revenue fall?"</text>
+
+      <line x1="540" y1="146" x2="570" y2="146" stroke="#d4cfc8" stroke-width="1"/>
+      <text x="575" y="140" font-size="10" fill="#8a8480">Resolves metric definition,</text>
+      <text x="575" y="156" font-size="10" fill="#8a8480">time range, entity</text>
+
+      <line x1="540" y1="236" x2="570" y2="236" stroke="#d4cfc8" stroke-width="1"/>
+      <text x="575" y="230" font-size="10" fill="#8a8480">Picks warehouse, vector,</text>
+      <text x="575" y="246" font-size="10" fill="#8a8480">or metrics layer</text>
+
+      <line x1="540" y1="326" x2="570" y2="326" stroke="#d4cfc8" stroke-width="1"/>
+      <text x="575" y="320" font-size="10" fill="#8a8480">Generates + runs</text>
+      <text x="575" y="336" font-size="10" fill="#8a8480">queries, aggregates</text>
+
+      <line x1="540" y1="416" x2="570" y2="416" stroke="#d4cfc8" stroke-width="1"/>
+      <text x="575" y="410" font-size="10" fill="#8a8480">Data fresh? Lineage</text>
+      <text x="575" y="426" font-size="10" fill="#8a8480">traceable? Sample OK?</text>
+    </svg>
+    <div class="vc-caption">The confidence check in Step 5 is what separates a trustworthy analytical agent from a dangerous one. The architect must build the quality signals that make this check possible.</div>
+  </div>
+
+  <h2>Governance Is No Longer Retrospective</h2>
+
+  <p>Traditional data governance was largely retrospective: audits, compliance reviews, access reviews conducted periodically by humans. This worked when humans were the primary consumers — they could be trained, accountable, and capable of exercising judgment in edge cases.</p>
+
+  <p>Agents act without judgment. They will query data they shouldn't if the access controls allow it. They will serve stale results if there is no freshness check. They will propagate a calculation error from a source table into a thousand downstream decisions before anyone notices. Governance must become <em>proactive, automated, and real-time.</em></p>
+
+  <h3>Lineage becomes the agent audit trail</h3>
+
+  <p>When an agent produces an output — a recommendation, an alert, a filed document — the organisation needs to be able to ask: what data informed this? Which tables, which versions, which transformations? This is not a regulatory nicety. It is the mechanism by which you investigate, correct, and improve agent behaviour. Without lineage, agents are black boxes inside other black boxes.</p>
+
+  <h3>Agent identity in access control</h3>
+
+  <p>Most existing RBAC systems were designed for human roles: "analyst can read this table, engineer can write that schema." Agents introduce a new kind of principal: a non-human identity that may need fine-grained, context-sensitive permissions. An analytics agent should be able to read aggregate revenue data but not individual customer payment records. A write agent should have append-only access to an audit log. These requirements push most organisations toward Attribute-Based Access Control (ABAC) — a meaningful architectural upgrade.</p>
+
+  <!-- ── VISUAL 4: Governance Stack ─────────────────────── -->
+  <div class="visual-card">
+    <div class="vc-label">Figure 4 — Governance Components for Agentic Systems</div>
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Five pillars side by side -->
+      <rect x="36"  y="40" width="110" height="120" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="91"  y="88"  text-anchor="middle" font-size="18" fill="#b06010">📋</text>
+      <text x="91"  y="112" text-anchor="middle" font-size="12" fill="#6a3a00" font-weight="700">Data catalog</text>
+      <text x="91"  y="132" text-anchor="middle" font-size="10" fill="#9a6020">Discoverability</text>
+      <text x="91"  y="148" text-anchor="middle" font-size="10" fill="#9a6020">for agents</text>
+
+      <rect x="162" y="40" width="110" height="120" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="217" y="88"  text-anchor="middle" font-size="18" fill="#b06010">🔗</text>
+      <text x="217" y="112" text-anchor="middle" font-size="12" fill="#6a3a00" font-weight="700">Lineage</text>
+      <text x="217" y="132" text-anchor="middle" font-size="10" fill="#9a6020">Trace every</text>
+      <text x="217" y="148" text-anchor="middle" font-size="10" fill="#9a6020">agent decision</text>
+
+      <rect x="288" y="40" width="110" height="120" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="343" y="88"  text-anchor="middle" font-size="18" fill="#b06010">🔒</text>
+      <text x="343" y="112" text-anchor="middle" font-size="12" fill="#6a3a00" font-weight="700">Access control</text>
+      <text x="343" y="132" text-anchor="middle" font-size="10" fill="#9a6020">ABAC for</text>
+      <text x="343" y="148" text-anchor="middle" font-size="10" fill="#9a6020">agent identities</text>
+
+      <rect x="414" y="40" width="110" height="120" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="469" y="88"  text-anchor="middle" font-size="18" fill="#b06010">✓</text>
+      <text x="469" y="112" text-anchor="middle" font-size="12" fill="#6a3a00" font-weight="700">Quality scoring</text>
+      <text x="469" y="132" text-anchor="middle" font-size="10" fill="#9a6020">Confidence</text>
+      <text x="469" y="148" text-anchor="middle" font-size="10" fill="#9a6020">signals per asset</text>
+
+      <rect x="540" y="40" width="124" height="120" rx="8" fill="#faf0e0" stroke="#e0c090" stroke-width="1"/>
+      <text x="602" y="88"  text-anchor="middle" font-size="18" fill="#b06010">📜</text>
+      <text x="602" y="112" text-anchor="middle" font-size="12" fill="#6a3a00" font-weight="700">Audit logs</text>
+      <text x="602" y="132" text-anchor="middle" font-size="10" fill="#9a6020">Immutable record</text>
+      <text x="602" y="148" text-anchor="middle" font-size="10" fill="#9a6020">of agent actions</text>
+    </svg>
+    <div class="vc-caption">Governance in the agentic era must be proactive, automated, and real-time — not periodic, manual, and retrospective.</div>
+  </div>
+
+  <div class="callout amber">
+    <div class="callout-title">The Invisible Failure Mode</div>
+    <p>In a human-driven data environment, a wrong number in a dashboard is visible — someone notices and escalates. In an agent-driven environment, a wrong number in a data asset can propagate silently into hundreds of agent decisions before any human sees a downstream effect. Data quality signals must be machine-readable and continuously evaluated.</p>
+  </div>
+
+  <div class="section-rule"><span>· · ·</span></div>
+
+  <h2>Five Principles for the Agentic Data Architect</h2>
+
+  <p>Based on this analysis, here are the five principles that should guide architectural decisions in the agentic era:</p>
+
+  <ol class="principle-list">
+    <li><div class="principle-content"><strong>Design the semantic layer as your primary product</strong><span>Before you build another pipeline, ask whether the meaning layer is machine-complete. Every metric, entity, and dimension your agents will consume must have an unambiguous, versioned, discoverable definition. This is the highest-leverage investment you can make.</span></div></li>
+    <li><div class="principle-content"><strong>Build for machine consumers from day one</strong><span>Every data asset should be assessable by an agent at query time: fresh enough? Lineage traceable? Quality sufficient? If these signals require a human to assess, they are too slow for agentic systems. Embed quality metadata directly into the catalog.</span></div></li>
+    <li><div class="principle-content"><strong>Treat agent identity as a first-class security principal</strong><span>Every agent that touches data must have a named identity, a minimum-privilege permission set, and a complete audit trail. "The analytics agent" is not an identity — "analytics-agent-v2-prod-readonly" is. Your access control model must support this granularity.</span></div></li>
+    <li><div class="principle-content"><strong>Make lineage non-negotiable</strong><span>Column-level lineage — not just table-level — is the minimum bar. When an agent produces an output, you must be able to trace every upstream transformation that contributed to it. This is not a compliance exercise. It is the mechanism for detecting and correcting agent errors at scale.</span></div></li>
+    <li><div class="principle-content"><strong>Design for graceful degradation</strong><span>Agents should not produce confident answers when the underlying data is uncertain, stale, or incomplete. Build confidence-scoring into your serving layer. An agent that says "I don't have sufficient data to answer this reliably" is far less dangerous than one that fabricates a plausible answer.</span></div></li>
+  </ol>
+
+  <div class="section-rule"><span>· · ·</span></div>
+
+  <h2>The Architect's Evolving Role</h2>
+
+  <p>The Data Architect has always been the person who translates business requirements into data structures. That remains true. What changes is the audience for that translation.</p>
+
+  <p>In the traditional era, you designed schemas for human analysts and BI tools. You could rely on the human consumer to exercise judgment, ask questions, and detect anomalies. You could tolerate ambiguity in the semantic layer because a skilled analyst would resolve it.</p>
+
+  <p>In the agentic era, you are designing infrastructure for autonomous systems that will act on your data without human supervision. The ambiguity you once tolerated will become a bug in production. The semantic layer you once deferred will become the thing that determines whether your agents can be trusted.</p>
+
+  <div class="pull-quote">
+    "The new job of the Data Architect is not to build pipelines for humans to consume. It is to build data infrastructure that AI agents can reason over, act on, and be held accountable for."
+  </div>
+
+  <p>This is not a diminishment of the role. It is an elevation. The Data Architect who understands agentic systems — who can design a semantic layer that an LLM can reason over, a lineage graph that makes agent decisions auditable, a quality framework that lets agents know what they don't know — is one of the most strategically important people in any data-intensive organisation.</p>
+
+  <p>The era of building pipelines to power dashboards is not ending. But the era of building infrastructure to power autonomous agents is beginning. The architects who master both will define the data landscape for the next decade.</p>
+
+  <div class="callout teal">
+    <div class="callout-title">Where to Start</div>
+    <p>If you are early in this journey, start with the semantic layer. Audit your most-used metrics: are they defined unambiguously? Are they machine-readable? Are they version-controlled? A well-designed semantic layer will immediately improve both your human BI and your agent systems — it is the highest-return first investment in any agentic data architecture.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="article-footer">
+    <span class="tag">Data Architecture</span>
+    <span class="tag">Agentic AI</span>
+    <span class="tag">Semantic Layer</span>
+    <span class="tag">Data Governance</span>
+    <span class="tag">LLM</span>
+    <span class="tag">MLOps</span>
+    <span class="tag">Cloud Infrastructure</span>
+  </div>
+
+</article>
+</body>
+</html>
